@@ -838,8 +838,10 @@ sub __Set {
 
     my $val = $self->_Handle->UpdateRecordValue(%args);
     unless ($val) {
-        my $message = 
-            $args{'Column'} . " could not be set to " . $args{'Value'} . "." ;
+        my $message =
+            $args{'Column'}
+          . " could not be set to "
+          . ( defined $args{'Value'} ? $args{'Value'} : 'undef' ) . ".";
         $ret->as_array( 0, $message);
         $ret->as_error(
             errno        => 4,
