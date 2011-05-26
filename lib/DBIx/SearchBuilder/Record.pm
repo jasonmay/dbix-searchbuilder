@@ -782,17 +782,11 @@ sub __Set {
         }
     }
 
-    unless ( defined $args{'Value'} ) {
-        $ret->as_array( 0, "No value passed to _Set" );
-        $ret->as_error(
-            errno        => 2,
-            do_backtrace => 0,
-            message      => "No value passed to _Set"
-        );
-        return ( $ret->return_value );
-    }
-    elsif (    ( defined $self->__Value($column) )
-        and ( $args{'Value'} eq $self->__Value($column) ) )
+    if (
+        ( !defined $self->__Value($column) && !defined $args{'Value'} )
+        || ( defined $self->__Value($column) && defined $args{'Value'}
+            && ( $args{'Value'} eq $self->__Value($column) ) )
+      )
     {
         $ret->as_array( 0, "That is already the current value" );
         $ret->as_error(
