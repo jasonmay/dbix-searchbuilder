@@ -782,10 +782,13 @@ sub __Set {
         }
     }
 
+    my $current_value = $self->__Value($column);
+
     if (
-        ( !defined $self->__Value($column) && !defined $args{'Value'} )
-        || ( defined $self->__Value($column) && defined $args{'Value'}
-            && ( $args{'Value'} eq $self->__Value($column) ) )
+        ( !defined $args{'Value'} && !defined $current_value )
+        || (   defined $args{'Value'}
+            && defined $current_value
+            && ( $args{'Value'} eq $current_value ) )
       )
     {
         $ret->as_array( 0, "That is already the current value" );
